@@ -27,41 +27,170 @@ $result = $conn->query("SELECT * FROM products");
     
 
     <style>
-        body { background-color: #F6F0F0; font-family: 'Poppins', sans-serif; }
-        .container { padding: 30px; }
-        h2 { color: #735240; font-weight: bold; }
-        .table-container { background: white; padding: 20px; border-radius: 12px; box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1); }
-        .table thead th { background: #735240; color: white; text-align: center; font-size: 14px; border: none; }
-        .table td { text-align: center; vertical-align: middle; padding: 15px; font-size: 14px; }
-        
-        /* Styling Table */
+        body {
+            background: linear-gradient(to right, #F3EDE8, #E6D2C2);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Page Title */
+        h2 {
+            color: #735240;
+            font-weight: bold;
+            text-align: center;
+            background: linear-gradient(135deg, #A67C52, #CBA35C);
+            padding: 14px;
+            border-radius: 12px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+            font-size: 22px;
+            color: white;
+        }
+
+        /* Table Container */
+        .table-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
+        }
+
+        /* Table Styling */
         .table {
-            width: 100%;
             border-radius: 12px;
             overflow: hidden;
+            margin-bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .table th {
-            background: #735240;
+            background: linear-gradient(135deg, #735240, #AB886D);
             color: white;
-            text-align: center;
             padding: 15px;
+            text-align: center;
             font-size: 14px;
-            text-transform: uppercase;
+            vertical-align: middle;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
         }
 
         .table td {
-            color: #5A3D2B;
             text-align: center;
             vertical-align: middle;
             padding: 15px;
             font-size: 14px;
+            border-bottom: 1px solid #ddd;
         }
 
+        /* Hover Effect */
         .table tbody tr:hover {
             background: #FDF8F3;
+            transform: scale(1.01);
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Action Buttons */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Edit Button */
+        .edit-btn {
+            background: linear-gradient(135deg, #5A3D2B, #8B5E3B);
+            color: white;
+            border: none;
+        }
+
+        /* Delete Button */
+        .delete-btn {
+            background: linear-gradient(135deg, #D9534F, #C9302C);
+            color: white;
+            border: none;
+        }
+
+        /* Modal Enhancements */
+        .modal-content {
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #735240, #AB886D);
+            color: white;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27AE60, #2ECC71);
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #2ECC71, #1E8449);
+        }
+
+        /* Form Inputs */
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #D5C4B1;
+            background: #FDF8F3;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #A67C52;
+            box-shadow: 0 0 10px rgba(166, 124, 82, 0.3);
+            outline: none;
+        }
+
+        /* Success Messages */
+        #successMessage, #editSuccessMessage {
+            text-align: center;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        .alert-success {
+            background: #C9E4A3;
+            color: #2E7D32;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 992px) {
+            .table-container {
+                padding: 15px;
+            }
+
+            .modal-content {
+                padding: 15px;
+            }
         }
         a {
             text-decoration: none !important;

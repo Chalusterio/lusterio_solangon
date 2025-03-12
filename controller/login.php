@@ -31,7 +31,7 @@ if(isset($_POST["login"])) {
             ];
 
             if($userRole == 'admin'){
-                header("Location: ../view/admin/index.php");
+                header("Location: ../view/admin/dashboard.php");
             } else if ($userRole == "user"){
                 header("Location: ../view/users/dashboard.php");
             } else {

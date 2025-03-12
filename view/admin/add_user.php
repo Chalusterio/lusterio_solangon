@@ -117,13 +117,27 @@ $(document).ready(function() {
             success: function(response) {
                 $("#userResponse").html(response).fadeIn();
 
+                // Ensure the success message is visible and centered
+                $("#userResponse").css({
+                    "text-align": "center",
+                    "margin-top": "20px",
+                    "border-radius": "8px",
+                    "padding": "12px",
+                    "font-weight": "bold"
+                });
+
+                // Smoothly hide success message after 5 seconds
                 setTimeout(function() {
                     $("#userResponse").fadeOut("slow", function() {
                         $(this).html("");
                     });
                 }, 5000);
 
+                // Reset form fields
                 $("#registerUserForm")[0].reset();
+                
+                // Prevent sidebar or layout shifts
+                $("html, body").animate({ scrollTop: 0 }, "slow");
             }
         });
     });
@@ -132,23 +146,43 @@ $(document).ready(function() {
 
 <style>
     body {
-        background-color: #F6F0F0;
+        background: linear-gradient(to right, #F3EDE8, #E6D2C2);
         font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        flex-direction: column;
     }
 
     .page-title {
         text-align: center;
         font-weight: bold;
-        color: #735240;
-        margin-bottom: 25px;
+        color: white;
+        background: linear-gradient(135deg, #A67C52, #CBA35C);
+        padding: 14px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        font-size: 22px;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
     }
 
     .card {
         border: none;
-        border-radius: 12px;
+        border-radius: 15px;
         box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.15);
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
         padding: 40px;
+        backdrop-filter: blur(10px);
+        max-width: 600px;
+        width: 100%;
+        position: relative; /* Fix sidebar overlap issue */
     }
 
     .form-label {
@@ -157,21 +191,28 @@ $(document).ready(function() {
         font-size: 16px;
     }
 
+    .row {
+        margin-bottom: 12px;
+    }
+
     .form-control, .form-select {
         border-radius: 10px;
         padding: 12px;
         border: 1px solid #D5C4B1;
         background: #FDF8F3;
         font-size: 16px;
+        box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
     }
 
     .form-control:focus, .form-select:focus {
-        border-color: #735240;
-        box-shadow: 0 0 8px rgba(115, 82, 64, 0.5);
+        border-color: #A67C52;
+        box-shadow: 0 0 10px rgba(166, 124, 82, 0.3);
+        outline: none;
     }
 
     .btn-primary {
-        background: #735240;
+        background: linear-gradient(135deg, #735240, #AB886D);
         border: none;
         padding: 14px;
         font-size: 18px;
@@ -179,10 +220,35 @@ $(document).ready(function() {
         transition: all 0.3s ease;
         border-radius: 10px;
         width: 100%;
+        color: white;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .btn-primary:hover {
-        background: #5A3D2B;
-        transform: scale(1.02);
+        background: linear-gradient(135deg, #5A3D2B, #735240);
+        transform: scale(1.03);
+        box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.15);
     }
+
+    /* ✅ Success Message Styling */
+    #userResponse {
+        margin-top: 20px;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .alert-success {
+        background: #C9E4A3;
+        color: #2E7D32;
+    }
+
+    .alert-danger {
+        background: #F8D7DA;
+        color: #C72C41;
+    }
+
+
 </style>

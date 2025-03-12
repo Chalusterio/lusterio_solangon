@@ -108,42 +108,68 @@ $(document).ready(function() {
 </script>
 
 <style>
-    body {
-        background-color: #F6F0F0;
+body {
+        background: linear-gradient(to right, #F3EDE8, #E6D2C2);
         font-family: 'Poppins', sans-serif;
     }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    /* Title with Gradient */
     .page-title {
         text-align: center;
         font-weight: bold;
-        color: #735240;
-        margin-bottom: 25px;
+        color: white;
+        background: linear-gradient(135deg, #A67C52, #CBA35C);
+        padding: 14px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        font-size: 22px;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
     }
 
+    /* Card Container */
     .card {
         border: none;
-        border-radius: 12px;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
-        background: white;
+        border-radius: 15px;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.15);
+        background: rgba(255, 255, 255, 0.9);
         padding: 30px;
+        backdrop-filter: blur(10px);
         width: 100%;
+        max-width: 900px;
     }
 
+    /* Table Styling */
     .table {
         width: 100%;
         border-radius: 12px;
         overflow: hidden;
+        background: rgba(255, 255, 255, 0.95);
     }
 
+    /* Table Headers */
     .table th {
-        background: #735240;
+        background: linear-gradient(135deg, #735240, #AB886D);
         color: white;
         text-align: center;
         padding: 15px;
         font-size: 14px;
         text-transform: uppercase;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
+    /* Table Rows */
     .table td {
         color: #5A3D2B;
         text-align: center;
@@ -152,22 +178,33 @@ $(document).ready(function() {
         font-size: 14px;
     }
 
+    .table tbody tr:nth-child(even) {
+        background: rgba(245, 224, 202, 0.6);
+    }
+
     .table tbody tr:hover {
         background: #FDF8F3;
+        transform: scale(1.01);
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     /* Delete Button */
     .btn-danger {
-        background: #D9534F;
+        background: linear-gradient(135deg, #D9534F, #C9302C);
         border: none;
-        padding: 6px 12px;
+        padding: 8px 12px;
         font-size: 14px;
+        font-weight: bold;
+        color: white;
         border-radius: 6px;
-        transition: 0.3s;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
     }
 
     .btn-danger:hover {
-        background: #C9302C;
+        background: linear-gradient(135deg, #C9302C, #A0201F);
+        transform: scale(1.05);
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     /* DataTables Styling */
@@ -179,6 +216,14 @@ $(document).ready(function() {
         margin-bottom: 15px;
     }
 
+    /* No Users Found Styling */
+    .text-center {
+        font-weight: bold;
+        color: #735240;
+        padding: 15px;
+    }
+
+    /* Remove Default Link Styles */
     a {
         text-decoration: none !important;
         color: inherit;

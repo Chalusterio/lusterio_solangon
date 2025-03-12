@@ -120,17 +120,35 @@ $(document).ready(function() {
 
 <style>
     body {
-        background-color: #F6F0F0;
+        background: linear-gradient(to right, #F3EDE8, #E6D2C2);
         font-family: 'Poppins', sans-serif;
     }
 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    /* Page Title */
     .page-title {
         text-align: center;
         font-weight: bold;
-        color: #735240;
-        margin-bottom: 25px;
+        color: white;
+        background: linear-gradient(135deg, #A67C52, #CBA35C);
+        padding: 14px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        font-size: 22px;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
     }
 
+    /* Order Summary Container */
     .order-summary {
         display: flex;
         gap: 20px;
@@ -138,13 +156,21 @@ $(document).ready(function() {
         margin-bottom: 30px;
     }
 
+    /* Glassmorphism Order Cards */
     .order-card {
         flex: 1;
-        background: white;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 25px;
         border-radius: 12px;
         text-align: center;
-        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .order-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
     }
 
     .order-card h3 {
@@ -154,53 +180,73 @@ $(document).ready(function() {
     }
 
     .order-card h1 {
-        font-size: 26px;
+        font-size: 28px;
         font-weight: bold;
+        color: #735240;
     }
 
+    /* Table Container */
     .table-container {
-        background: white;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 25px;
         border-radius: 12px;
-        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 1200px;
     }
 
+    /* Table Styles */
     .table {
         border-radius: 12px;
         overflow: hidden;
         margin-bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
     }
 
+    /* Table Header */
     .table th {
-        background: #735240;
+        background: linear-gradient(135deg, #735240, #AB886D);
         color: white;
         padding: 15px;
         text-align: center;
         font-size: 14px;
         vertical-align: middle;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
+    /* Table Body */
     .table td {
         text-align: center;
         vertical-align: middle;
         padding: 15px;
         font-size: 14px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Table Row Hover */
+    .table tbody tr:hover {
+        background: #FDF8F3;
+        transform: scale(1.01);
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     /* Status Labels */
     .status {
-        padding: 5px 10px;
+        padding: 6px 12px;
         border-radius: 6px;
         font-weight: bold;
         display: inline-block;
         color: white;
+        font-size: 12px;
     }
 
-    .status-delivered { background: #3498db; } /* Blue */
-    .status-shipping { background: #2ecc71; } /* Green */
-    .status-new { background: #2980b9; } /* Dark Blue */
-    .status-pending { background: #f39c12; } /* Orange */
-    .status-return { background: #e74c3c; } /* Red */
+    .status-delivered { background: #ADE498; } /* Green */
+    .status-shipping { background: #7FDBDA; } /* Blue */
+    .status-new { background: #EDE682; } /* Orange */
+    .status-pending { background: #FEBF63; } /* Dark Orange */
+    .status-return { background: #F38181; } /* Red */
 
     /* Responsive Adjustments */
     @media (max-width: 992px) {
