@@ -33,7 +33,7 @@ if(isset($_POST["login"])) {
             if($userRole == 'admin'){
                 header("Location: ../view/admin/index.php");
             } else if ($userRole == "user"){
-                header("Location: ../view/users/index.php");
+                header("Location: ../view/users/dashboard.php");
             } else {
                 $_SESSION['message'] = "Invalid Credentials";
                 $_SESSION["code"] = "error";

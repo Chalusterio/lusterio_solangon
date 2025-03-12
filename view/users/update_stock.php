@@ -1,5 +1,5 @@
 <?php
-include("../../../dB/config.php");
+include("../../dB/config.php");
 
 header('Content-Type: application/json'); // Ensure response is JSON
 
