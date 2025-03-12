@@ -1,5 +1,5 @@
 <?php
-include("../../../dB/config.php"); // Database connection
+include("../../dB/config.php"); // Database connection
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
     $userId = $_POST['id'];

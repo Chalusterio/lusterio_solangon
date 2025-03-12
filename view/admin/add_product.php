@@ -1,5 +1,5 @@
 <?php
-include("../../../dB/config.php");
+include("../../dB/config.php");
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

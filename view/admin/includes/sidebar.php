@@ -54,94 +54,52 @@
 
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
-  <ul class="sidebar-nav" id="sidebar-nav">
 
-    <!-- Dashboard -->
-    <li class="nav-item">
-      <a class="nav-link" href="#" id="loadDashboard">
-        <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
-      </a>
-    </li><!-- End Dashboard Nav -->
+    <ul class="sidebar-nav" id="sidebar-nav">
 
-    <!-- User Management -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-people"></i>
-        <span>User Management</span>
-        <i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="user-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
-          <a class="nav-link" href="#" id="loadAddUser">
-            <i class="bi bi-person-plus"></i>
-            <span>Add User</span>
-          </a>
-        </li>
-        <li>
-          <a class="nav-link" href="#" id="loadUserList">
-            <i class="bi bi-list"></i>
-            <span>User List</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End User Management Nav -->
+        <!-- Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="dashboard.php">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- End Dashboard Nav -->
 
-    <!-- Orders -->
-    <li class="nav-item">
-      <a class="nav-link" href="#" id="loadOrders">
-        <i class="bi bi-cart"></i>
-        <span>Orders</span>
-      </a>
-    </li><!-- End Orders Nav -->
+        <!-- User Management (Dropdown) -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#user-management-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="user-management-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="add_user.php">
+                        <i class="bi bi-circle"></i><span>Add User</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="user_list.php">
+                        <i class="bi bi-circle"></i><span>User List</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End User Management Nav -->
 
-    <!-- Inventory -->
-    <li class="nav-item">
-      <a class="nav-link" href="#" id="loadInventory">
-        <i class="bi bi-box-seam"></i>
-        <span>Inventory</span>
-      </a>
-    </li><!-- End Inventory Nav -->
+        <!-- Orders -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="orders.php">
+                <i class="bi bi-bag"></i>
+                <span>Orders</span>
+            </a>
+        </li><!-- End Orders Nav -->
 
-  </ul>
+        <!-- Inventory -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="inventory.php">
+                <i class="bi bi-box-seam"></i>
+                <span>Inventory</span>
+            </a>
+        </li><!-- End Inventory Nav -->
+
+    </ul>
+
 </aside><!-- End Sidebar -->
-
-<main id="main" class="main">
-  <!-- Content will be loaded here -->
-</main>
-
-<!-- jQuery for AJAX -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    // Load "Dashboard" page dynamically
-    $("#loadDashboard").click(function(event) {
-      event.preventDefault();
-      $("#main").load("sidebar/dashboard.php");
-    });
-
-    // Load "Add User" page dynamically
-    $("#loadAddUser").click(function(event) {
-      event.preventDefault();
-      $("#main").load("sidebar/add_user.php");
-    });
-
-    // Load "User List" page dynamically
-    $("#loadUserList").click(function(event) {
-      event.preventDefault();
-      $("#main").load("sidebar/user_list.php");
-    });
-
-    // Load "Orders" page dynamically
-    $("#loadOrders").click(function(event) {
-      event.preventDefault();
-      $("#main").load("sidebar/orders.php");
-    });
-
-    // Load "Inventory" page dynamically
-    $("#loadInventory").click(function(event) {
-      event.preventDefault();
-      $("#main").load("sidebar/inventory.php");
-    });
-  });
-</script>

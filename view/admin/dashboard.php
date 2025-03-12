@@ -1,80 +1,15 @@
 <?php
-include("../../../dB/config.php"); // Connect to database
+include("./includes/header.php");
+include("./includes/topbar.php");
+include("./includes/sidebar.php");
+include("../../dB/config.php"); // Connect to database
 
 // Fetch low-stock items (stock_quantity < 5)
 $lowStockQuery = "SELECT product_name, stock_quantity FROM products WHERE stock_quantity < 5";
 $lowStockResult = $conn->query($lowStockQuery);
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-
-    <style>
-        body {
-            background-color: #F6F0F0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .container-fluid {
-            padding: 30px;
-        }
-
-        h2 {
-            color: #735240;
-            font-weight: bold;
-        }
-
-        .dashboard-card {
-            border-radius: 15px;
-            color: white;
-            padding: 20px;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-sales { background: linear-gradient(135deg, #A66E38, #AB886D); }
-        .card-orders { background: linear-gradient(135deg, #A67C52, #6E4E32); }
-        .card-visitors { background: linear-gradient(135deg, #D5B89D, #A47E5C); }
-
-        .chart-container {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-container {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .alert-low-stock {
-            background: #9D5C4A; /* Soft brownish-red */
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-        a {
-            text-decoration: none !important;
-            color: inherit;
-        }
-        a:hover, a:focus {
-            text-decoration: none !important;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container-fluid">
+<div class="container-fluid py-4">
     <h2>Admin Dashboard</h2>
 
     <div class="row">
@@ -160,9 +95,11 @@ $lowStockResult = $conn->query($lowStockQuery);
             </div>
         </div>
     </div>
-
 </div>
 
+<?php include("./includes/footer.php"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // Sample Jewelry Stock Data
 var stockLabels = ["Adjustable", "Small", "Medium", "Large"];
@@ -190,5 +127,51 @@ var jewelryStockChart = new Chart(ctx, {
 });
 </script>
 
-</body>
-</html>
+<style>
+    body {
+        background-color: #F6F0F0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .dashboard-card {
+        border-radius: 15px;
+        color: white;
+        padding: 20px;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-sales { background: linear-gradient(135deg, #A66E38, #AB886D); }
+    .card-orders { background: linear-gradient(135deg, #A67C52, #6E4E32); }
+    .card-visitors { background: linear-gradient(135deg, #D5B89D, #A47E5C); }
+
+    .chart-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .table-container {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-low-stock {
+        background: #9D5C4A; /* Soft brownish-red */
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    a {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+    a:hover, a:focus {
+        text-decoration: none !important;
+    }
+</style>

@@ -1,5 +1,5 @@
 <?php
-include("../../../dB/config.php");
+include("../../dB/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
