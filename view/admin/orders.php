@@ -113,7 +113,11 @@ $(document).ready(function() {
         "paging": true,
         "searching": true,
         "ordering": false,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "language": {
+            "lengthMenu": "Show _MENU_ entries",
+            "search": "Search:"
+        }
     });
 });
 </script>
@@ -247,6 +251,34 @@ $(document).ready(function() {
     .status-new { background: #EDE682; } /* Orange */
     .status-pending { background: #FEBF63; } /* Dark Orange */
     .status-return { background: #F38181; } /* Red */
+
+    /* DataTables Customization */
+    .dataTables_wrapper .dataTables_length select {
+        border-radius: 12px;
+        padding: 5px;
+        border: 1px solid #D5C4B1;
+        background: #FDF8F3;
+        font-size: 14px;
+        box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        border-radius: 12px;
+        padding: 5px;
+        border: 1px solid #D5C4B1;
+        background: #FDF8F3;
+        font-size: 14px;
+        box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .dataTables_wrapper .dataTables_length select:focus,
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: #A67C52;
+        box-shadow: 0 0 10px rgba(166, 124, 82, 0.3);
+        outline: none;
+    }
 
     /* Responsive Adjustments */
     @media (max-width: 992px) {
