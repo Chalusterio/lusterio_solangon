@@ -4,9 +4,25 @@ include("./includes/topbar.php");
 include("./includes/sidebar.php");
 include("../../dB/config.php"); // Connect to database
 
-// Fetch low-stock items (stock_quantity < 5)
-$lowStockQuery = "SELECT product_name, stock_quantity FROM products WHERE stock_quantity < 5";
+$stockQuery = "SELECT size, SUM(stock_quantity) AS total_stock FROM products GROUP BY size";
+$stockResult = $conn->query($stockQuery);
+$lowStockQuery = "SELECT product_name, stock_quantity FROM products WHERE stock_quantity < 10"; 
 $lowStockResult = $conn->query($lowStockQuery);
+
+$stockData = [];
+$stockLabels = [];
+$stockValues = [];
+
+if ($stockResult->num_rows > 0) {
+    while ($row = $stockResult->fetch_assoc()) {
+        $stockLabels[] = $row['size']; // Size categories
+        $stockValues[] = (int)$row['total_stock']; // Stock quantity per size
+    }
+}
+
+// Convert data to JSON for JavaScript
+$stockLabelsJSON = json_encode($stockLabels);
+$stockValuesJSON = json_encode($stockValues);
 ?>
 
 <div class="container-fluid py-4 main-content">
@@ -74,7 +90,6 @@ $lowStockResult = $conn->query($lowStockQuery);
                         <tr><td>4</td><td>Marisol Datahan</td><td>₱1,900</td><td>Mar 2, 2024</td></tr>
                         <tr><td>5</td><td>Therese Solangon</td><td>₱6,750</td><td>Mar 1, 2024</td></tr>
                         <tr><td>6</td><td>Sophia Diaz</td><td>₱6,000</td><td>Mar 1, 2024</td></tr>
-                        
                     </tbody>
                 </table>
             </div>
@@ -105,11 +120,11 @@ $lowStockResult = $conn->query($lowStockQuery);
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-// Sample Jewelry Stock Data
-var stockLabels = ["Adjustable", "Small", "Medium", "Large"];
-var stockValues = [20, 35, 50, 25]; 
+// Get data from PHP
+var stockLabels = <?php echo $stockLabelsJSON; ?>;
+var stockValues = <?php echo $stockValuesJSON; ?>;
 
-// Render Jewelry Stock Chart
+// Render the chart
 var ctx = document.getElementById("jewelryStockChart").getContext("2d");
 var jewelryStockChart = new Chart(ctx, {
     type: "bar",
@@ -222,10 +237,6 @@ h2 {
 .chart-container, .table-container {
     flex: 1;
     min-height: 350px;
-}
-
-.sidebar {
-    width: 220px;
 }
 
 .main-content {
