@@ -55,6 +55,8 @@ $result = $conn->query($query);
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+
 
 <script>
 $(document).ready(function() {
@@ -64,7 +66,14 @@ $(document).ready(function() {
         "ordering": false,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "responsive": true,
-        "autoWidth": false
+        "autoWidth": false,
+        "language": {
+            "lengthMenu": "Show _MENU_ entries",
+            "paginate": {
+                "previous": "Previous",
+                "next": "Next"
+            }
+        }
     });
 
     // Delete User Confirmation

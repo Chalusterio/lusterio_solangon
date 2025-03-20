@@ -106,6 +106,7 @@ include("./includes/sidebar.php");
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
 <script>
 $(document).ready(function() {
@@ -116,10 +117,16 @@ $(document).ready(function() {
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "language": {
             "lengthMenu": "Show _MENU_ entries",
-            "search": "Search:"
+            "search": "Search:",
+            "paginate": {
+                "previous": "Previous",
+                "next": "Next"
+            },
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries"
         }
     });
 });
+
 </script>
 
 <style>
