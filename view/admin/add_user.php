@@ -8,24 +8,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = trim($_POST["first_name"]);
     $lastName = trim($_POST["last_name"]);
     $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]); // Storing plaintext passwords is not recommended!
+    $password = trim($_POST["password"]);
+    $confirmPassword = trim($_POST["confirm_password"]);
     $phoneNumber = trim($_POST["phone"]);
     $gender = $_POST["gender"];
     $birthday = $_POST["birthday"];
     $role = strtolower(trim($_POST["role"]));
     $verification = 0; // Default verification status
 
-    // Fetch the last user ID
+    // ✅ Check if passwords match
+    if ($password !== $confirmPassword) {
+        echo "<div class='alert alert-danger'>Passwords do not match.</div>";
+        exit();
+    }
+
+    // ✅ Check if email already exists
+    $checkEmail = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    $checkEmail->bind_param("s", $email);
+    $checkEmail->execute();
+    $checkEmail->store_result();
+
+    if ($checkEmail->num_rows > 0) {
+        echo "<div class='alert alert-danger'>Email already exists. Please use a different one.</div>";
+        $checkEmail->close();
+        exit();
+    }
+    $checkEmail->close();
+
+    // ✅ Hash password before storing (SECURITY BEST PRACTICE)
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // ✅ Fetch the last user ID
     $result = $conn->query("SELECT MAX(userId) as last_id FROM users");
     $row = $result->fetch_assoc();
     $nextUserId = $row['last_id'] ? $row['last_id'] + 1 : 1;
 
-    // Insert into users table
+    // ✅ Insert into users table
     $sql = "INSERT INTO users (userId, firstName, lastName, email, password, phoneNumber, gender, birthday, role, verification, createdAt) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-    
+
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issssssssi", $nextUserId, $firstName, $lastName, $email, $password, $phoneNumber, $gender, $birthday, $role, $verification);
+    $stmt->bind_param("issssssssi", $nextUserId, $firstName, $lastName, $email, $hashedPassword, $phoneNumber, $gender, $birthday, $role, $verification);
 
     if ($stmt->execute()) {
         echo "<div class='alert alert-success'>User registered successfully!</div>";
@@ -63,6 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="mb-3">
                     <label class="form-label">Password</label>
                     <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
                 </div>
 
                 <div class="mb-3">
@@ -110,6 +137,14 @@ $(document).ready(function() {
     $("#registerUserForm").submit(function(event) {
         event.preventDefault();
 
+        let password = $("input[name='password']").val();
+        let confirmPassword = $("input[name='confirm_password']").val();
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+
         $.ajax({
             url: "add_user.php",
             type: "POST",
@@ -117,7 +152,6 @@ $(document).ready(function() {
             success: function(response) {
                 $("#userResponse").html(response).fadeIn();
 
-                // Ensure the success message is visible and centered
                 $("#userResponse").css({
                     "text-align": "center",
                     "margin-top": "20px",
@@ -126,23 +160,20 @@ $(document).ready(function() {
                     "font-weight": "bold"
                 });
 
-                // Smoothly hide success message after 5 seconds
                 setTimeout(function() {
                     $("#userResponse").fadeOut("slow", function() {
                         $(this).html("");
                     });
                 }, 5000);
 
-                // Reset form fields
                 $("#registerUserForm")[0].reset();
-                
-                // Prevent sidebar or layout shifts
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             }
         });
     });
 });
 </script>
+
 
 <style>
     body {
