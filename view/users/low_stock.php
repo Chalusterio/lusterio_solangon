@@ -9,33 +9,43 @@ $query = "SELECT id, product_name, stock_quantity FROM products WHERE stock_quan
 $result = $conn->query($query);
 ?>
 
-<div class="container py-4">
-    <h2 class="mb-4"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock Alerts</h2>
+<div class="wrapper d-flex">  
+    <main class="content flex-grow-1">
+        <h2 class="mb-4">
+            <i class="fa-solid fa-triangle-exclamation"></i> Low Stock Alerts
+        </h2>
 
-    <div class="low-stock-container">
-        <?php 
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="low-stock-item">
-                        <div>
-                            <i class="fa-solid fa-box-open low-stock-icon"></i>
-                            <strong>' . $row['product_name'] . '</strong> is running low!
+        <div class="low-stock-container">
+            <?php 
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo '
+                        <div class="low-stock-item">
+                            <div>
+                                <i class="fa-solid fa-box-open low-stock-icon"></i>
+                                <strong>' . $row['product_name'] . '</strong> is running low!
+                            </div>
+                            <span class="stock-count">Only ' . $row['stock_quantity'] . ' left</span>
                         </div>
-                        <span class="stock-count">Only ' . $row['stock_quantity'] . ' left</span>
-                      </div>';
+                    ';
+                }
+            } else {
+                echo '
+                    <div class="alert alert-success">
+                        <i class="fa-solid fa-check-circle"></i> ✅ All products have sufficient stock.
+                    </div>
+                ';
             }
-        } else {
-            echo '<div class="alert alert-success"><i class="fa-solid fa-check-circle"></i> ✅ All products have sufficient stock.</div>';
-        }
-        ?>
-    </div>
+            ?>
+        </div>
+    </main>
 </div>
 
 <?php include("./includes/footer.php"); ?>
 
 <!-- Styles -->
 <style>
-body {
+    body {
         background-color: #F6F0F0;
         font-family: 'Poppins', sans-serif;
     }
@@ -43,10 +53,8 @@ body {
     .container {
         padding: 30px;
         margin-top: 50px;
-
     }
 
-    /* Title Styling */
     h2 {
         color: #735240;
         font-weight: bold;
@@ -69,7 +77,6 @@ body {
         margin-top: 20px;
     }
 
-    /* Low Stock Item Styling */
     .low-stock-item {
         background: linear-gradient(135deg, #E8D1C5, #C7A17A);
         color: #5A3D2B;
@@ -89,7 +96,6 @@ body {
         box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* Stock Count Label */
     .low-stock-item .stock-count {
         background: white;
         padding: 5px 15px;
@@ -105,7 +111,6 @@ body {
         color: #5A3D2B;
     }
 
-    /* Success Alert for Sufficient Stock */
     .alert-success {
         background: #C9E4A3;
         padding: 15px;
@@ -125,7 +130,6 @@ body {
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    /* Low Stock Icon */
     .low-stock-icon {
         font-size: 1.5rem;
         margin-right: 10px;
@@ -133,7 +137,6 @@ body {
         transition: transform 0.3s ease-in-out;
     }
 
-    /* Animated Warning Icon */
     .fa-triangle-exclamation {
         font-size: 1.5rem;
         color: #D65A31;
@@ -151,7 +154,6 @@ body {
         }
     }
 
-    /* Remove Default Link Styles */
     a {
         text-decoration: none !important;
         color: inherit;
@@ -159,5 +161,40 @@ body {
 
     a:hover, a:focus {
         text-decoration: none !important;
+    }
+
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar {
+        width: 260px;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .sidebar.collapsed {
+        width: 80px;
+    }
+
+    .content {
+        flex-grow: 1;
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 260px;
+    }
+
+    .sidebar.collapsed + .content {
+        margin-left: 80px;
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            width: 80px;
+        }
+
+        .content {
+            margin-left: 80px;
+        }
     }
 </style>

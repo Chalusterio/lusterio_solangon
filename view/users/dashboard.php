@@ -32,7 +32,7 @@ $topSellingProducts = $conn->query($topSellingQuery);
 ?>
 
 <style>
-            body {
+    body {
         background-color: #F6F0F0;
         font-family: 'Poppins', sans-serif;
     }
@@ -40,7 +40,7 @@ $topSellingProducts = $conn->query($topSellingQuery);
     h2 {
         color: #735240;
         font-weight: bold;
-        text-align: center;
+        text-align: left;
         letter-spacing: 1px;
     }
 
@@ -59,9 +59,17 @@ $topSellingProducts = $conn->query($topSellingQuery);
         box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .card-low { background: linear-gradient(135deg, #A66E38, #AB886D); }
-    .card-medium { background: linear-gradient(135deg, #A67C52, #CBA35C); }
-    .card-high { background: linear-gradient(135deg, #A47E5C, #D5B89D); }
+    .card-low {
+        background: linear-gradient(135deg, #A66E38, #AB886D);
+    }
+
+    .card-medium {
+        background: linear-gradient(135deg, #A67C52, #CBA35C);
+    }
+
+    .card-high {
+        background: linear-gradient(135deg, #A47E5C, #D5B89D);
+    }
 
     .btn-dark {
         background-color: #735240;
@@ -161,7 +169,6 @@ $topSellingProducts = $conn->query($topSellingQuery);
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     }
 
-    /* Recent Activity */
     .list-group-item {
         background: rgba(255, 255, 255, 0.8);
         padding: 15px;
@@ -175,141 +182,173 @@ $topSellingProducts = $conn->query($topSellingQuery);
         font-size: 12px;
         float: right;
     }
+
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar {
+        width: 260px;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .sidebar.collapsed {
+        width: 80px;
+    }
+
+    .content {
+        flex-grow: 1;
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 260px;
+    }
+
+    .sidebar.collapsed + .content {
+        margin-left: 80px;
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            width: 80px;
+        }
+
+        .content {
+            margin-left: 80px;
+        }
+    }
 </style>
 
-<div class="container py-4">
-    <h2 class="mb-4">User Dashboard</h2>
+<div class="wrapper d-flex">  
+    <main class="content flex-grow-1">
+        <h2 class="mb-4">User Dashboard</h2>
 
-    <div class="row">
-        <!-- Stock Overview -->
-        <div class="col-lg-4">
-            <div class="card dashboard-card card-low mb-4">
-                <div class="card-body">
-                    <h5 class="fw-bold">Low Stock</h5>
-                    <h4><?= $stockSummary['low_stock']; ?> Items</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card dashboard-card card-medium mb-4">
-                <div class="card-body">
-                    <h5 class="fw-bold">Medium Stock</h5>
-                    <h4><?= $stockSummary['medium_stock']; ?> Items</h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="card dashboard-card card-high mb-4">
-                <div class="card-body">
-                    <h5 class="fw-bold">High Stock</h5>
-                    <h4><?= $stockSummary['high_stock']; ?> Items</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Recent Activity & Top Selling Products -->
-    <div class="equal-height-container">
-    <!-- Recent Activity -->
-    <div class="table-container">
-        <h4 class="fw-bold">Recent Activity</h4>
-        <ul class="list-group flex-grow-1">
-            <?php foreach ($recentActivity as $activity) : ?>
-                <li class="list-group-item"><?= $activity[0] ?> <small class="text-muted"><?= $activity[1] ?></small></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-
-    <!-- Top Selling Products -->
-    <div class="table-container">
-        <h4 class="fw-bold">Top Selling Products</h4>
-        <div class="product-list">
-            <?php while ($product = $topSellingProducts->fetch_assoc()) : ?>
-                <div class="card card-box text-center">
-                    <h5><?= $product['product_name']; ?></h5>
-                    <p>₱<?= number_format($product['price'], 2); ?></p>
-                    <p class="text-muted">Stock: <?= $product['stock_quantity']; ?></p>
-                    <button class="btn btn-sm btn-dark">View Details</button>
-                </div>
-            <?php endwhile; ?>
-        </div>
-    </div>
-</div>
-
-<!-- Featured Products -->
-<div class="row mt-4">
-    <div class="col-lg-12">
-        <div class="table-container">
-            <h4 class="fw-bold">Featured Products</h4>
-            <div class="product-list">
-                <?php while ($product = $featuredProducts->fetch_assoc()) : ?>
-                    <div class="card card-box text-center">
-                        <h5><?= $product['product_name']; ?></h5>
-                        <p>₱<?= number_format($product['price'], 2); ?></p>
-                        <p class="text-muted">Stock: <?= $product['stock_quantity']; ?></p>
-                        <button class="btn btn-sm btn-dark">View Details</button>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card dashboard-card card-low mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold">Low Stock</h5>
+                        <h4><?= $stockSummary['low_stock']; ?> Items</h4>
                     </div>
-                <?php endwhile; ?>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card dashboard-card card-medium mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold">Medium Stock</h5>
+                        <h4><?= $stockSummary['medium_stock']; ?> Items</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card dashboard-card card-high mb-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold">High Stock</h5>
+                        <h4><?= $stockSummary['high_stock']; ?> Items</h4>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-    <!-- Stock Summary Chart -->
-    <div class="row mt-4">
-        <div class="col-lg-12">
-            <div class="chart-container">
-                <h4 class="fw-bold">Stock Summary</h4>
-                <canvas id="stockChart"></canvas>
+        <div class="equal-height-container">
+            <div class="table-container">
+                <h4 class="fw-bold">Recent Activity</h4>
+                <ul class="list-group flex-grow-1">
+                    <?php foreach ($recentActivity as $activity): ?>
+                        <li class="list-group-item"><?= $activity[0] ?> <small class="text-muted"><?= $activity[1] ?></small></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
+            <div class="table-container">
+                <h4 class="fw-bold">Top Selling Products</h4>
+                <div class="product-list">
+                    <?php while ($product = $topSellingProducts->fetch_assoc()): ?>
+                        <div class="card card-box text-center">
+                            <h5><?= $product['product_name']; ?></h5>
+                            <p>₱<?= number_format($product['price'], 2); ?></p>
+                            <p class="text-muted">Stock: <?= $product['stock_quantity']; ?></p>
+                            <button class="btn btn-sm btn-dark">View Details</button>
+                        </div>
+                    <?php endwhile; ?>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="table-container">
+                    <h4 class="fw-bold">Featured Products</h4>
+                    <div class="product-list">
+                        <?php while ($product = $featuredProducts->fetch_assoc()): ?>
+                            <div class="card card-box text-center">
+                                <h5><?= $product['product_name']; ?></h5>
+                                <p>₱<?= number_format($product['price'], 2); ?></p>
+                                <p class="text-muted">Stock: <?= $product['stock_quantity']; ?></p>
+                                <button class="btn btn-sm btn-dark">View Details</button>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h4 class="fw-bold">Stock Summary</h4>
+                    <canvas id="stockChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    var ctx = document.getElementById("stockChart").getContext("2d");
+    document.addEventListener("DOMContentLoaded", function () {
+        var ctx = document.getElementById("stockChart").getContext("2d");
 
-    var gradientLow = ctx.createLinearGradient(0, 0, 0, 400);
-    gradientLow.addColorStop(0, "#A66E38");
-    gradientLow.addColorStop(1, "#AB886D");
+        var gradientLow = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientLow.addColorStop(0, "#A66E38");
+        gradientLow.addColorStop(1, "#AB886D");
 
-    var gradientMedium = ctx.createLinearGradient(0, 0, 0, 400);
-    gradientMedium.addColorStop(0, "#A67C52");
-    gradientMedium.addColorStop(1, "#CBA35C");
+        var gradientMedium = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientMedium.addColorStop(0, "#A67C52");
+        gradientMedium.addColorStop(1, "#CBA35C");
 
-    var gradientHigh = ctx.createLinearGradient(0, 0, 0, 400);
-    gradientHigh.addColorStop(0, "#A47E5C");
-    gradientHigh.addColorStop(1, "#D5B89D");
+        var gradientHigh = ctx.createLinearGradient(0, 0, 0, 400);
+        gradientHigh.addColorStop(0, "#A47E5C");
+        gradientHigh.addColorStop(1, "#D5B89D");
 
-    var stockData = {
-        labels: ["Low Stock", "Medium Stock", "High Stock"],
-        datasets: [{
-            label: "Stock Count",
-            data: [<?= $stockSummary['low_stock'] ?? 0; ?>, <?= $stockSummary['medium_stock'] ?? 0; ?>, <?= $stockSummary['high_stock'] ?? 0; ?>],
-            backgroundColor: [gradientLow, gradientMedium, gradientHigh],
-            borderColor: "#735240",
-            borderWidth: 1
-        }]
-    };
+        var stockData = {
+            labels: ["Low Stock", "Medium Stock", "High Stock"],
+            datasets: [{
+                label: "Stock Count",
+                data: [
+                    <?= $stockSummary['low_stock'] ?? 0; ?>,
+                    <?= $stockSummary['medium_stock'] ?? 0; ?>,
+                    <?= $stockSummary['high_stock'] ?? 0; ?>
+                ],
+                backgroundColor: [gradientLow, gradientMedium, gradientHigh],
+                borderColor: "#735240",
+                borderWidth: 1
+            }]
+        };
 
-    if (ctx) {
         new Chart(ctx, {
             type: "bar",
             data: stockData,
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } },
-                scales: { y: { beginAtZero: true } }
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
             }
         });
-    } else {
-        console.error("Canvas element for stockChart not found.");
-    }
-});
-
+    });
 </script>
 
-<?php
-include("./includes/footer.php");
-?>
+<?php include("./includes/footer.php"); ?>

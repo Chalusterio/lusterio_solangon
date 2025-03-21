@@ -1,27 +1,54 @@
 <head>
   <style>
     .logo span {
-      color: #735240; /* Updated font color */
-      font-family: 'cursive'; 
-      font-weight: 800;
+      color: #735240;
+      font-family: 'cursive';
+      font-weight: bold;
     }
 
     .nav-icon i,
     .toggle-sidebar-btn,
     .notification-item i {
-      color: #735240 !important; /* Match the icon color to text */
+      color: #735240 !important;
     }
 
     .badge-number {
-      background-color: #cbc7b7 !important; /* Change badge background color */
-      color: #735240 !important; /* Optional: Change text color if needed */
+      background-color: #cbc7b7 !important;
+      color: #735240 !important;
     }
 
     .nav-profile span {
-      color: #735240 !important; /* Change the text color of C. Lusterio */
+      color: #735240 !important;
     }
+
     .bi-search {
-      color: #cbc7b7 !important; /* Change search icon color */
+      color: #cbc7b7 !important;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #F6F0F0;
+      z-index: 1050;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      padding-top: 70px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 250px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      background-color: #F6F0F0 !important;
+      border-right: 2px solid #E0D6D6;
     }
   </style>
 </head>
@@ -33,30 +60,29 @@
       <img src="../../assets/img/SLlogo1.png" alt="">
       <span class="d-none d-lg-block">Celestia</span>
     </a>
-    <i class="bi bi-list toggle-sidebar-btn"></i>
-  </div><!-- End Logo -->
+    <i class="bi bi-list toggle-sidebar-btn" onclick="toggleSidebar()"></i>
+  </div>
 
   <div class="search-bar">
     <form class="search-form d-flex align-items-center" method="POST" action="#">
       <input type="text" name="query" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
-  </div><!-- End Search Bar -->
+  </div>
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
       <li class="nav-item d-block d-lg-none">
-        <a class="nav-link nav-icon search-bar-toggle" href="#">
-          <i class="bi bi-search"></i>
-        </a>
-      </li><!-- End Search Icon -->
+        <a class="nav-link nav-icon search-bar-toggle" href="#"><i class="bi bi-search"></i></a>
+      </li>
 
+      <!-- Notifications -->
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
           <span class="badge badge-number">4</span>
-        </a><!-- End Notification Icon -->
+        </a>
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
           <li class="dropdown-header">
@@ -75,7 +101,6 @@
           </li>
 
           <li><hr class="dropdown-divider"></li>
-
           <li class="notification-item">
             <i class="bi bi-x-circle text-danger"></i>
             <div>
@@ -86,7 +111,6 @@
           </li>
 
           <li><hr class="dropdown-divider"></li>
-
           <li class="notification-item">
             <i class="bi bi-check-circle text-success"></i>
             <div>
@@ -97,7 +121,6 @@
           </li>
 
           <li><hr class="dropdown-divider"></li>
-
           <li class="notification-item">
             <i class="bi bi-info-circle text-primary"></i>
             <div>
@@ -108,17 +131,16 @@
           </li>
 
           <li><hr class="dropdown-divider"></li>
-          <li class="dropdown-footer">
-            <a href="#">Show all notifications</a>
-          </li>
-        </ul><!-- End Notification Dropdown Items -->
-      </li><!-- End Notification Nav -->
+          <li class="dropdown-footer"><a href="#">Show all notifications</a></li>
+        </ul>
+      </li>
 
+      <!-- Messages -->
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-chat-left-text"></i>
           <span class="badge badge-number">3</span>
-        </a><!-- End Messages Icon -->
+        </a>
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
           <li class="dropdown-header">
@@ -137,8 +159,8 @@
               </div>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
 
+          <li><hr class="dropdown-divider"></li>
           <li class="message-item">
             <a href="#">
               <img src="../../assets/img/messages-2.jpg" alt="" class="rounded-circle">
@@ -149,8 +171,8 @@
               </div>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
 
+          <li><hr class="dropdown-divider"></li>
           <li class="message-item">
             <a href="#">
               <img src="../../assets/img/messages-3.jpg" alt="" class="rounded-circle">
@@ -161,19 +183,18 @@
               </div>
             </a>
           </li>
+
           <li><hr class="dropdown-divider"></li>
+          <li class="dropdown-footer"><a href="#">Show all messages</a></li>
+        </ul>
+      </li>
 
-          <li class="dropdown-footer">
-            <a href="#">Show all messages</a>
-          </li>
-        </ul><!-- End Messages Dropdown Items -->
-      </li><!-- End Messages Nav -->
-
+      <!-- Profile -->
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="../../assets/img/woman.png" alt="Profile" class="rounded-circle">
           <span class="d-none d-md-block dropdown-toggle ps-2">C. Lusterio</span>
-        </a><!-- End Profile Image Icon -->
+        </a>
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
@@ -188,49 +209,58 @@
               <span>My Profile</span>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
 
+          <li><hr class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
               <i class="bi bi-gear"></i>
               <span>Account Settings</span>
             </a>
           </li>
-          <li><hr class="dropdown-divider"></li>
 
+          <li><hr class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
               <i class="bi bi-question-circle"></i>
               <span>Need Help?</span>
             </a>
           </li>
+
           <li><hr class="dropdown-divider"></li>
-
           <li>
-              <a class="dropdown-item d-flex align-items-center" href="http://localhost/IT322/login.php" onclick="logout()">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-            <script>
-              function logout() {
-                // Clear cookies (removes session if stored in cookies)
-                document.cookie.split(";").forEach((c) => {
-                  document.cookie = c
-                    .replace(/^ +/, "")
-                    .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
-                });
-
-                // Redirect to login page (just in case the href doesn't trigger)
-                window.location.href = "http://localhost/IT322/login.php";
-              }
-            </script>
+            <a class="dropdown-item d-flex align-items-center" href="http://localhost/IT322/login.php" onclick="logout()">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
             </a>
           </li>
-        </ul><!-- End Profile Dropdown Items -->
-      </li><!-- End Profile Nav -->
-
+        </ul>
+      </li>
     </ul>
-  </nav><!-- End Icons Navigation -->
-</header><!-- End Header -->
+  </nav>
+</header>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const content = document.querySelector('.content');
+
+    sidebar.classList.toggle('collapsed');
+
+    if (sidebar.classList.contains('collapsed')) {
+      sidebar.style.width = '80px';
+      content.style.marginLeft = '80px';
+    } else {
+      sidebar.style.width = '260px';
+      content.style.marginLeft = '260px';
+    }
+  }
+
+  function logout() {
+    document.cookie.split(";").forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, "")
+        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
+    window.location.href = "http://localhost/IT322/login.php";
+  }
+</script>

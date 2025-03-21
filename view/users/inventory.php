@@ -8,44 +8,50 @@ include("../../dB/config.php");
 $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
 ?>
 
-<div class="container py-4">
-    <h2 class="mb-4">Stock Inventory</h2>
+<div class="wrapper d-flex">  
+    <main class="content flex-grow-1">
+        <h2 class="mb-4">Stock Inventory</h2>
 
-    <!-- **Inventory Search Bar (with Unique ID)** -->
-    <input type="text" id="inventorySearch" class="form-control" placeholder="Search for products...">
+        <!-- Inventory Search Bar -->
+        <input type="text" id="inventorySearch" class="form-control" placeholder="Search for products...">
 
-    <div class="table-container mt-3">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="text-center">ID</th>
-                    <th class="text-center">Product Name</th>
-                    <th class="text-center">Description</th>
-                    <th class="text-center">Price</th>
-                    <th class="text-center">Stock</th>
-                    <th class="text-center">Size</th>
-                    <th class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="productTableBody">
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr id="row-<?= $row['id']; ?>">
-                        <td><?= $row['id']; ?></td>
-                        <td><?= $row['product_name']; ?></td>
-                        <td><?= $row['product_description']; ?></td>
-                        <td>₱<?= number_format($row['price'], 2); ?></td>
-                        <td>
-                            <input type="number" class="stock-input" data-id="<?= $row['id']; ?>" value="<?= $row['stock_quantity']; ?>">
-                        </td>
-                        <td><?= $row['size']; ?></td>
-                        <td>
-                            <button class="update-btn" data-id="<?= $row['id']; ?>">Update</button>
-                        </td>
+        <div class="table-container mt-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Product Name</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Stock</th>
+                        <th class="text-center">Size</th>
+                        <th class="text-center">Actions</th>
                     </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="productTableBody">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr id="row-<?= $row['id']; ?>">
+                            <td><?= $row['id']; ?></td>
+                            <td><?= $row['product_name']; ?></td>
+                            <td><?= $row['product_description']; ?></td>
+                            <td>₱<?= number_format($row['price'], 2); ?></td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    class="stock-input" 
+                                    data-id="<?= $row['id']; ?>" 
+                                    value="<?= $row['stock_quantity']; ?>">
+                            </td>
+                            <td><?= $row['size']; ?></td>
+                            <td>
+                                <button class="update-btn" data-id="<?= $row['id']; ?>">Update</button>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
 
 <?php include("./includes/footer.php"); ?>
@@ -55,48 +61,48 @@ $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-$(document).ready(function() {
-    // **Inventory Search**
-    $("#inventorySearch").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#productTableBody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    $(document).ready(function() {
+        // Inventory Search
+        $("#inventorySearch").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#productTableBody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
         });
-    });
 
-    // **Handle stock update via AJAX**
-    $(".update-btn").click(function() {
-        let productId = $(this).data("id");
-        let newStock = $(this).closest("tr").find(".stock-input").val();
+        // Handle stock update via AJAX
+        $(".update-btn").click(function() {
+            let productId = $(this).data("id");
+            let newStock = $(this).closest("tr").find(".stock-input").val();
 
-        $.ajax({
-            url: "update_stock.php",
-            type: "POST",
-            data: { id: productId, stock_quantity: newStock },
-            dataType: "json",
-            success: function(response) {
-                if (response.status === "success") {
-                    Swal.fire({
-                        title: "Updated!",
-                        text: "Stock has been updated successfully.",
-                        icon: "success",
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
-                } else {
-                    Swal.fire("Error!", response.message, "error");
+            $.ajax({
+                url: "update_stock.php",
+                type: "POST",
+                data: { id: productId, stock_quantity: newStock },
+                dataType: "json",
+                success: function(response) {
+                    if (response.status === "success") {
+                        Swal.fire({
+                            title: "Updated!",
+                            text: "Stock has been updated successfully.",
+                            icon: "success",
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire("Error!", response.message, "error");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire("Error!", "AJAX request failed: " + error, "error");
                 }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire("Error!", "AJAX request failed: " + error, "error");
-            }
+            });
         });
     });
-});
 </script>
 
 <style>
-        body {
+    body {
         background-color: #F6F0F0;
         font-family: 'Poppins', sans-serif;
         margin-top: 50px;
@@ -106,7 +112,6 @@ $(document).ready(function() {
         padding: 30px;
     }
 
-    /* Styled Title */
     h2 {
         color: white;
         font-weight: bold;
@@ -117,7 +122,6 @@ $(document).ready(function() {
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
-    /* Search Bar */
     #inventorySearch {
         width: 100%;
         padding: 12px;
@@ -134,7 +138,6 @@ $(document).ready(function() {
         box-shadow: 0px 0px 10px rgba(166, 124, 82, 0.3);
     }
 
-    /* Table Container */
     .table-container {
         background: rgba(255, 255, 255, 0.9);
         padding: 20px;
@@ -143,7 +146,6 @@ $(document).ready(function() {
         backdrop-filter: blur(8px);
     }
 
-    /* Styled Table */
     .table {
         width: 100%;
         border-radius: 12px;
@@ -163,7 +165,7 @@ $(document).ready(function() {
 
     .table tbody tr:nth-child(even) {
         background: rgba(245, 224, 202, 0.6);
-    } /* Soft beige for alternate rows */
+    }
 
     .table tbody tr {
         transition: all 0.3s ease-in-out;
@@ -183,7 +185,6 @@ $(document).ready(function() {
         font-size: 14px;
     }
 
-    /* Editable Stock Input */
     .stock-input {
         width: 60px;
         text-align: center;
@@ -199,7 +200,6 @@ $(document).ready(function() {
         outline: none;
     }
 
-    /* Update Button */
     .update-btn {
         background: linear-gradient(135deg, #5A3D2B, #735240);
         color: white;
@@ -217,4 +217,38 @@ $(document).ready(function() {
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
     }
 
+    .wrapper {
+        display: flex;
+        min-height: 100vh;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar {
+        width: 260px;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .sidebar.collapsed {
+        width: 80px;
+    }
+
+    .content {
+        flex-grow: 1;
+        transition: margin-left 0.3s ease-in-out;
+        margin-left: 260px;
+    }
+
+    .sidebar.collapsed + .content {
+        margin-left: 80px;
+    }
+
+    @media (max-width: 992px) {
+        .sidebar {
+            width: 80px;
+        }
+
+        .content {
+            margin-left: 80px;
+        }
+    }
 </style>
