@@ -113,13 +113,17 @@ $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
     }
 
     h2 {
-        color: white;
-        font-weight: bold;
-        background: linear-gradient(135deg, #A67C52, #CBA35C);
-        padding: 12px 20px;
-        border-radius: 10px;
         text-align: center;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #A67C52, #CBA35C);
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 22px;
+    margin-bottom: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
     }
 
     #inventorySearch {
@@ -218,37 +222,55 @@ $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
     }
 
     .wrapper {
-        display: flex;
-        min-height: 100vh;
-        transition: all 0.3s ease-in-out;
-    }
+    display: flex;
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+    justify-content: center; /* Ensures centering when sidebar is hidden */
+}
 
+.sidebar {
+    width: 260px;
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+    width: 0;
+}
+
+.content {
+    flex-grow: 1;
+    transition: all 0.3s ease-in-out;
+    margin-left: 280px; /* Default kapag expanded */
+    padding: 20px;
+    max-width: calc(100% - 280px);
+}
+
+/* Center content when sidebar is hidden */
+.sidebar.collapsed + .content {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 900px; /* Adjust for better centering */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensures all elements are centered */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
     .sidebar {
-        width: 260px;
-        transition: width 0.3s ease-in-out;
-    }
-
-    .sidebar.collapsed {
-        width: 80px;
+        width: 0;
     }
 
     .content {
-        flex-grow: 1;
-        transition: margin-left 0.3s ease-in-out;
-        margin-left: 260px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 900px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+}
 
-    .sidebar.collapsed + .content {
-        margin-left: 80px;
-    }
-
-    @media (max-width: 992px) {
-        .sidebar {
-            width: 80px;
-        }
-
-        .content {
-            margin-left: 80px;
-        }
-    }
 </style>

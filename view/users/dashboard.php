@@ -111,7 +111,7 @@ $topSellingProducts = $conn->query($topSellingQuery);
         align-items: stretch;
     }
 
-    .equal-height-container > .table-container {
+    .equal-height-container>.table-container {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -200,12 +200,15 @@ $topSellingProducts = $conn->query($topSellingQuery);
 
     .content {
         flex-grow: 1;
-        transition: margin-left 0.3s ease-in-out;
         margin-left: 260px;
+        /* Ensure enough space for sidebar */
+        padding: 20px;
+        transition: margin-left 0.3s ease-in-out;
+        width: calc(100% - 260px);
     }
 
-    .sidebar.collapsed + .content {
-        margin-left: 80px;
+    .sidebar.collapsed+.content {
+        margin-left: 90px;
     }
 
     @media (max-width: 992px) {
@@ -214,12 +217,13 @@ $topSellingProducts = $conn->query($topSellingQuery);
         }
 
         .content {
-            margin-left: 80px;
+            margin-left: 100x;
+            padding-left: 20px;
         }
     }
 </style>
 
-<div class="wrapper d-flex">  
+<div class="wrapper d-flex">
     <main class="content flex-grow-1">
         <h2 class="mb-4">User Dashboard</h2>
 
@@ -305,7 +309,7 @@ $topSellingProducts = $conn->query($topSellingQuery);
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         var ctx = document.getElementById("stockChart").getContext("2d");
 
         var gradientLow = ctx.createLinearGradient(0, 0, 0, 400);
@@ -341,10 +345,14 @@ $topSellingProducts = $conn->query($topSellingQuery);
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { display: false }
+                    legend: {
+                        display: false
+                    }
                 },
                 scales: {
-                    y: { beginAtZero: true }
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
         });

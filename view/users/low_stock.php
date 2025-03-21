@@ -9,14 +9,14 @@ $query = "SELECT id, product_name, stock_quantity FROM products WHERE stock_quan
 $result = $conn->query($query);
 ?>
 
-<div class="wrapper d-flex">  
+<div class="wrapper d-flex">
     <main class="content flex-grow-1">
         <h2 class="mb-4">
             <i class="fa-solid fa-triangle-exclamation"></i> Low Stock Alerts
         </h2>
 
         <div class="low-stock-container">
-            <?php 
+            <?php
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '
@@ -56,17 +56,17 @@ $result = $conn->query($query);
     }
 
     h2 {
-        color: #735240;
+        text-align: center;
         font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 24px;
-        background: linear-gradient(135deg, #A67C52, #CBA35C);
         color: white;
-        padding: 12px 20px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #A67C52, #CBA35C);
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 22px;
+        margin-bottom: 20px;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
     }
 
     .low-stock-container {
@@ -148,6 +148,7 @@ $result = $conn->query($query);
             transform: scale(1);
             opacity: 1;
         }
+
         100% {
             transform: scale(1.1);
             opacity: 0.8;
@@ -159,7 +160,8 @@ $result = $conn->query($query);
         color: inherit;
     }
 
-    a:hover, a:focus {
+    a:hover,
+    a:focus {
         text-decoration: none !important;
     }
 
@@ -167,6 +169,8 @@ $result = $conn->query($query);
         display: flex;
         min-height: 100vh;
         transition: all 0.3s ease-in-out;
+        justify-content: center;
+        /* Ensures centering when sidebar is hidden */
     }
 
     .sidebar {
@@ -175,26 +179,45 @@ $result = $conn->query($query);
     }
 
     .sidebar.collapsed {
-        width: 80px;
+        width: 0;
     }
 
     .content {
         flex-grow: 1;
-        transition: margin-left 0.3s ease-in-out;
-        margin-left: 260px;
+        transition: all 0.3s ease-in-out;
+        margin-left: 280px;
+        /* Default kapag expanded */
+        padding: 20px;
+        max-width: calc(100% - 280px);
     }
 
-    .sidebar.collapsed + .content {
-        margin-left: 80px;
+    /* Center content when sidebar is hidden */
+    .sidebar.collapsed+.content {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 900px;
+        /* Adjust for better centering */
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Ensures all elements are centered */
     }
 
+    /* Mobile Responsiveness */
     @media (max-width: 992px) {
         .sidebar {
-            width: 80px;
+            width: 0;
         }
 
         .content {
-            margin-left: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 900px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     }
 </style>
