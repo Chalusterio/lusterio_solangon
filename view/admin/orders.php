@@ -154,20 +154,23 @@ include("./includes/sidebar.php");
     background: linear-gradient(135deg, #A67C52, #CBA35C);
     padding: 14px;
     border-radius: 12px;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
     font-size: 22px;
-    width: 100%;
-    max-width: 600px;
     margin-bottom: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
   }
-
   /* Order Summary Container */
   .order-summary {
     display: flex;
     gap: 20px;
-    justify-content: space-between;
-    margin-bottom: 30px;
-  }
+    justify-content: center; /* Center content */
+    align-items: center; /* Align vertically */
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px; /* Ensure same width as table */
+    margin: 0 auto 20px auto; /* Center and add spacing */
+}
 
   /* Glassmorphism Order Cards */
   .order-card {
@@ -207,6 +210,7 @@ include("./includes/sidebar.php");
     backdrop-filter: blur(10px);
     width: 100%;
     max-width: 1200px;
+    margin: 0 auto; /* Center */
   }
 
   /* Table Styles */
