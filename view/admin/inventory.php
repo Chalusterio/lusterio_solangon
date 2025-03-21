@@ -197,11 +197,50 @@ $result = $conn->query("SELECT * FROM products");
         a:hover, a:focus {
             text-decoration: none !important;
         }
+        /* Wrapper for Sidebar & Content */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 260px;
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* Main Content */
+.content {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 260px; /* Default when sidebar is visible */
+}
+
+/* When Sidebar is Collapsed */
+.sidebar.collapsed + .content {
+    margin-left: 80px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 80px;
+    }
+    .content {
+        margin-left: 80px;
+    }
+}
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="wrapper d-flex">
+  <main class="content flex-grow-1">
     <div class="d-flex justify-content-between align-items-center">
         <h2>Stock Inventory</h2>
         <button class="btn" style="background-color: #735240; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal">
