@@ -43,10 +43,8 @@ $result = $conn->query("SELECT * FROM products");
             color: #735240;
             font-weight: bold;
             text-align: center;
-            background: linear-gradient(135deg, #A67C52, #CBA35C);
             padding: 14px;
             border-radius: 12px;
-            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
             font-size: 22px;
             color: white;
         }
