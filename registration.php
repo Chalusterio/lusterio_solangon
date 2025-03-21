@@ -4,52 +4,76 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Pages / Register - NiceAdmin Bootstrap Template</title>
+  <title>Register</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/SLlogo1.png" rel="icon">
+  <link href="assets/img/SLlogo1.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
+  <!-- SweetAlert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Updated: Apr 20 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <!-- Custom Theme Styling -->
+  <style>
+    body {
+      background-color: #F6F0F0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      color: #735240;
+      font-weight: bold;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #A66E38, #AB886D);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #AB886D, #A66E38);
+    }
+
+    .form-label {
+      color: #735240;
+      font-weight: 500;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: #735240;
+    }
+
+    a:hover {
+      color: #A66E38;
+    }
+  </style>
 </head>
+
 <?php session_start(); ?>
 <body>
-
   <main>
     <div class="container">
-
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-              <div class="card mb-3">
-
+              <div class="card mb-3 w-100">
                 <div class="card-body">
 
                   <div class="pt-4 pb-2">
@@ -58,7 +82,6 @@
                   </div>
 
                   <form class="row g-3 needs-validation" action="./controller/registration.php" method="POST" novalidate>
-
                     <div class="col-12">
                       <label for="yourName" class="form-label">First Name</label>
                       <input type="text" name="firstName" class="form-control" id="yourName" required>
@@ -66,64 +89,48 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourName" class="form-label">Last Name </label>
-                      <input type="text" name="lastName" class="form-control" id="yourEmail" required>
+                      <label for="yourLastName" class="form-label">Last Name</label>
+                      <input type="text" name="lastName" class="form-control" id="yourLastName" required>
                       <div class="invalid-feedback">Please enter your last name!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Email Address </label>
-                      <div class="input-group has-validation">
-                        <input type="email" name="email" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please choose a email address!</div>
-                      </div>
+                      <label for="yourEmail" class="form-label">Email Address</label>
+                      <input type="email" name="email" class="form-control" id="yourEmail" required>
+                      <div class="invalid-feedback">Please choose an email address!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourpassword" class="form-label">Password</label>
+                      <label for="yourPassword" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourcpassword" class="form-label">Confirm Password</label>
-                      <input type="password" name="cpassword" class="form-control" id="yourPassword" required>
+                      <label for="yourCPassword" class="form-label">Confirm Password</label>
+                      <input type="password" name="cpassword" class="form-control" id="yourCPassword" required>
                       <div class="invalid-feedback">Please confirm your password!</div>
                     </div>
 
+                    <div class="col-12">
+                      <label for="yourPhone" class="form-label">Phone Number</label>
+                      <input type="text" name="phoneNumber" class="form-control" id="yourPhone" pattern="09[0-9]{9}" minlength="11" maxlength="11" required>
+                      <div class="invalid-feedback">Please enter a valid 11-digit phone number!</div>
+                    </div>
 
                     <div class="col-12">
-                      <label for="yourphoneNumber" class="form-label">Phone Number</label>
-                      <div class="input-group has-validation">
-                        <input type="text" name="phoneNumber" class="form-control" id="yourUsername" 
-                              pattern="09[0-9]{9}" minlength="11" maxlength="11" required>
-                        <div class="invalid-feedback">Please enter a valid 11-digit phone number!</div>
-                      </div>
+                      <label for="gender" class="form-label">Gender</label>
+                      <select class="form-select" name="gender" required>
+                        <option selected disabled>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                      </select>
                     </div>
 
-                    
-                    <div class = "col-12">
-                      <div class="row mb-3">
-                        <label class="col-lg-3 col-form-label">Gender</label>
-                        <div class="col-lg-9">
-                          <select class="form-select" name="gender" aria-label="Default select example" required>>
-                            <option selected disabled>Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                          </select>
-                        </div>
-                      </div>
+                    <div class="col-12">
+                      <label for="birthday" class="form-label">Birthday</label>
+                      <input type="date" name="birthday" class="form-control" id="birthday" required>
                     </div>
-
-                    <div class = "col-12">
-                      <div class="row mb-3">
-                      <label for="inputDate" class="col-sm-3 col-form-label">Birthday </label>
-                      <div class = "col-lg-9">
-                        <input type = "date" class = "form-control" name="birthday" required>
-                      </div>
-                      </div>
-                    </div>
-                    
 
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit" name="registration">Create Account</button>
@@ -141,20 +148,9 @@
         </div>
       </section>
     </div>
-  </main><!-- End #main -->
+  </main>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <?php
   if(isset($_SESSION['message']) && $_SESSION['code'] !='') {
@@ -179,11 +175,10 @@
       <?php
       unset($_SESSION['message']);
       unset($_SESSION['code']);
-  }     
-?>
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  }
+  ?>
 
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
