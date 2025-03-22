@@ -210,6 +210,13 @@ $result = $conn->query($query);
     color: #5A3D2B;
   }
 
+  .table {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
   .table tbody tr:nth-child(even) {
     background: rgba(245, 224, 202, 0.6);
   }
