@@ -198,10 +198,11 @@ $result = $conn->query("SELECT * FROM products");
             text-decoration: none !important;
         }
         /* Wrapper for Sidebar & Content */
-.wrapper {
+        .wrapper {
     display: flex;
     min-height: 100vh;
     transition: all 0.3s ease-in-out;
+    justify-content: center;
 }
 
 /* Sidebar Styling */
@@ -211,28 +212,34 @@ $result = $conn->query("SELECT * FROM products");
 }
 
 .sidebar.collapsed {
-    width: 80px;
+    display: none; /* Hide the sidebar completely */
 }
 
 /* Main Content */
 .content {
     flex-grow: 1;
-    transition: margin-left 0.3s ease-in-out;
-    margin-left: 260px; /* Default when sidebar is visible */
+    transition: all 0.3s ease-in-out;
+    margin-left: 260px; /* Default kung naa ang sidebar */
+    padding: 20px;
+    max-width: 1200px; /* Para dili mag-spread too much */
 }
 
-/* When Sidebar is Collapsed */
+/* Kung mawala ang sidebar, automatic mo-center ang content */
 .sidebar.collapsed + .content {
-    margin-left: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 80%; /* Control the width of the content */
 }
 
 /* Mobile Responsive */
 @media (max-width: 992px) {
     .sidebar {
-        width: 80px;
+        display: none;
     }
     .content {
-        margin-left: 80px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 90%;
     }
 }
     </style>
