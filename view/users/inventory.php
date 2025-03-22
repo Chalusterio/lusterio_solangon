@@ -10,7 +10,7 @@ $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
 
 <div class="wrapper d-flex">  
     <main class="content flex-grow-1">
-        <h2 class="mb-4">Stock Inventory</h2>
+    <h2 class="page-title">Stock Inventory</h2>
 
         <!-- Inventory Search Bar -->
         <input type="text" id="inventorySearch" class="form-control" placeholder="Search for products...">
@@ -112,19 +112,19 @@ $result = $conn->query("SELECT * FROM products ORDER BY id ASC");
         padding: 30px;
     }
 
-    h2 {
-        text-align: center;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(135deg, #A67C52, #CBA35C);
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 22px;
-    margin-bottom: 20px;
-    max-width: 600px;
-    margin: 20px auto;
-    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-    }
+    .page-title {
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #A67C52, #CBA35C);
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 22px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+}
 
     #inventorySearch {
         width: 100%;

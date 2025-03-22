@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $size = $conn->real_escape_string($_POST["size"]);
 
         $stmt = $conn->prepare("INSERT INTO products (product_name, product_description, price, stock_quantity, size) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssdss", $name, $description, $price, $stock, $size);
+        $stmt->bind_param("ssdis", $name, $description, $price, $stock, $size);
 
         if ($stmt->execute()) {
             $response = [
