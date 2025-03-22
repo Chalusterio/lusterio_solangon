@@ -10,6 +10,7 @@ $result = $conn->query("SELECT * FROM products");
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@ $result = $conn->query("SELECT * FROM products");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
 
     <style>
         body {
@@ -39,7 +40,7 @@ $result = $conn->query("SELECT * FROM products");
         }
 
         /* Page Title */
-        h2 {
+        .page-title {
             color: #735240;
             font-weight: bold;
             text-align: center;
@@ -47,8 +48,8 @@ $result = $conn->query("SELECT * FROM products");
             border-radius: 12px;
             font-size: 22px;
             color: white;
+            background: linear-gradient(135deg, #A67C52, #CBA35C);
         }
-
         /* Table Container */
         .table-container {
             background: rgba(255, 255, 255, 0.9);
@@ -151,7 +152,8 @@ $result = $conn->query("SELECT * FROM products");
         }
 
         /* Form Inputs */
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border-radius: 8px;
             padding: 12px;
             border: 1px solid #D5C4B1;
@@ -160,14 +162,16 @@ $result = $conn->query("SELECT * FROM products");
             transition: all 0.3s ease-in-out;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: #A67C52;
             box-shadow: 0 0 10px rgba(166, 124, 82, 0.3);
             outline: none;
         }
 
         /* Success Messages */
-        #successMessage, #editSuccessMessage {
+        #successMessage,
+        #editSuccessMessage {
             text-align: center;
             font-weight: bold;
             border-radius: 8px;
@@ -190,200 +194,210 @@ $result = $conn->query("SELECT * FROM products");
                 padding: 15px;
             }
         }
+
         a {
             text-decoration: none !important;
             color: inherit;
         }
-        a:hover, a:focus {
+
+        a:hover,
+        a:focus {
             text-decoration: none !important;
         }
+
         /* Wrapper for Sidebar & Content */
         .wrapper {
-    display: flex;
-    min-height: 100vh;
-    transition: all 0.3s ease-in-out;
-    justify-content: center;
-}
+            display: flex;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+            justify-content: center;
+        }
 
-/* Sidebar Styling */
-.sidebar {
-    width: 260px;
-    transition: width 0.3s ease-in-out;
-}
+        /* Sidebar Styling */
+        .sidebar {
+            width: 260px;
+            transition: width 0.3s ease-in-out;
+        }
 
-.sidebar.collapsed {
-    display: none; /* Hide the sidebar completely */
-}
+        .sidebar.collapsed {
+            display: none;
+            /* Hide the sidebar completely */
+        }
 
-/* Main Content */
-.content {
-    flex-grow: 1;
-    transition: all 0.3s ease-in-out;
-    margin-left: 260px; /* Default kung naa ang sidebar */
-    padding: 20px;
-    max-width: 1200px; /* Para dili mag-spread too much */
-}
+        /* Main Content */
+        .content {
+            flex-grow: 1;
+            transition: all 0.3s ease-in-out;
+            margin-left: 260px;
+            /* Default kung naa ang sidebar */
+            padding: 20px;
+            max-width: 1200px;
+            /* Para dili mag-spread too much */
+        }
 
-/* Kung mawala ang sidebar, automatic mo-center ang content */
-.sidebar.collapsed + .content {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 80%; /* Control the width of the content */
-}
+        /* Kung mawala ang sidebar, automatic mo-center ang content */
+        .sidebar.collapsed+.content {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 80%;
+            /* Control the width of the content */
+        }
 
-/* Mobile Responsive */
-@media (max-width: 992px) {
-    .sidebar {
-        display: none;
-    }
-    .content {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 90%;
-    }
-}
+        /* Mobile Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<div class="wrapper d-flex">
-  <main class="content flex-grow-1">
-    <div class="d-flex justify-content-between align-items-center">
-        <h2>Stock Inventory</h2>
-        <button class="btn" style="background-color: #735240; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            + Add Product
-        </button>
-    </div>
-
-    <div class="table-container">
-        <table id="inventoryTable" class="table table-striped">
-        <thead>
-            <tr>
-                <th class="text-center">ID</th>
-                <th class="text-center">Product Name</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Stock</th>
-                <th class="text-center">Size</th>
-                <th class="text-center">Actions</th>
-            </tr>
-        </thead>
-            <tbody id="productTableBody">
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <tr id="row-<?= $row['id']; ?>">
-                        <td><?= $row['id']; ?></td>
-                        <td><?= $row['product_name']; ?></td>
-                        <td><?= $row['product_description']; ?></td>
-                        <td>₱<?= number_format($row['price'], 2); ?></td>
-                        <td><?= $row['stock_quantity']; ?></td>
-                        <td><?= $row['size']; ?></td>
-                        <td>
-                            <button class="btn edit-btn" data-id="<?= $row['id']; ?>" data-bs-toggle="modal" data-bs-target="#editProductModal" style="background-color: #5A3D2B; color: white; border: none;">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn delete-btn" data-id="<?= $row['id']; ?>" style="background-color: #D9534F; color: white; border: none;">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Add Product Modal -->
-<div class="modal fade" id="addProductModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="wrapper d-flex">
+        <main class="content flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="page-title">Stock Inventory</h2>
+                <button class="btn" style="background-color: #735240; color: white;" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                    + Add Product
+                </button>
             </div>
-            <div class="modal-body">
-                <form id="addProductForm">
-                    <div class="mb-3"><label>Product Name</label><input type="text" name="product_name" class="form-control" required></div>
-                    <div class="mb-3"><label>Description</label><textarea name="product_description" class="form-control" required></textarea></div>
-                    <div class="mb-3"><label>Price</label><input type="number" name="price" class="form-control" step="0.01" required></div>
-                    <div class="mb-3"><label>Stock</label><input type="number" name="stock_quantity" class="form-control" required></div>
-                    <div class="mb-3">
-                        <label>Size</label>
-                        <select name="size" class="form-select" required>
-                            <option value="Adjustable">Adjustable</option>
-                            <option value="Small">Small</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Large">Large</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success">Add Product</button>
-                </form>
 
-                <!-- Success message -->
-                <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
-                    Product successfully added!
+            <div class="table-container">
+                <table id="inventoryTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Product Name</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Stock</th>
+                            <th class="text-center">Size</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr id="row-<?= $row['id']; ?>">
+                                <td><?= $row['id']; ?></td>
+                                <td><?= $row['product_name']; ?></td>
+                                <td><?= $row['product_description']; ?></td>
+                                <td>₱<?= number_format($row['price'], 2); ?></td>
+                                <td><?= $row['stock_quantity']; ?></td>
+                                <td><?= $row['size']; ?></td>
+                                <td>
+                                    <button class="btn edit-btn" data-id="<?= $row['id']; ?>" data-bs-toggle="modal" data-bs-target="#editProductModal" style="background-color: #5A3D2B; color: white; border: none;">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn delete-btn" data-id="<?= $row['id']; ?>" style="background-color: #D9534F; color: white; border: none;">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="mb-3"><label>Product Name</label><input type="text" name="product_name" class="form-control" required></div>
+                        <div class="mb-3"><label>Description</label><textarea name="product_description" class="form-control" required></textarea></div>
+                        <div class="mb-3"><label>Price</label><input type="number" name="price" class="form-control" step="0.01" required></div>
+                        <div class="mb-3"><label>Stock</label><input type="number" name="stock_quantity" class="form-control" required></div>
+                        <div class="mb-3">
+                            <label>Size</label>
+                            <select name="size" class="form-select" required>
+                                <option value="Adjustable">Adjustable</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Add Product</button>
+                    </form>
+
+                    <!-- Success message -->
+                    <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+                        Product successfully added!
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Edit Product Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editProductForm">
-                    <input type="hidden" name="id" id="editProductId">
-                    <div class="mb-3"><label>Product Name</label><input type="text" name="product_name" id="editProductName" class="form-control" required></div>
-                    <div class="mb-3"><label>Description</label><textarea name="product_description" id="editProductDescription" class="form-control" required></textarea></div>
-                    <div class="mb-3"><label>Price</label><input type="number" name="price" id="editProductPrice" class="form-control" step="0.01" required></div>
-                    <div class="mb-3"><label>Stock</label><input type="number" name="stock_quantity" id="editProductStock" class="form-control" required></div>
-                    <div class="mb-3">
-                        <label>Size</label>
-                        <select name="size" id="editProductSize" class="form-select" required>
-                            <option value="Adjustable">Adjustable</option>
-                            <option value="Small">Small</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Large">Large</option>
-                        </select>
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm">
+                        <input type="hidden" name="id" id="editProductId">
+                        <div class="mb-3"><label>Product Name</label><input type="text" name="product_name" id="editProductName" class="form-control" required></div>
+                        <div class="mb-3"><label>Description</label><textarea name="product_description" id="editProductDescription" class="form-control" required></textarea></div>
+                        <div class="mb-3"><label>Price</label><input type="number" name="price" id="editProductPrice" class="form-control" step="0.01" required></div>
+                        <div class="mb-3"><label>Stock</label><input type="number" name="stock_quantity" id="editProductStock" class="form-control" required></div>
+                        <div class="mb-3">
+                            <label>Size</label>
+                            <select name="size" id="editProductSize" class="form-select" required>
+                                <option value="Adjustable">Adjustable</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Update Product</button>
+                    </form>
+
+                    <!-- Success message -->
+                    <div id="editSuccessMessage" class="alert alert-success mt-3" style="display: none;">
+                        Product successfully updated!
                     </div>
-                    <button type="submit" class="btn btn-success">Update Product</button>
-                </form>
-
-                <!-- Success message -->
-                <div id="editSuccessMessage" class="alert alert-success mt-3" style="display: none;">
-                    Product successfully updated!
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-$(document).ready(function() {
-    $("#inventoryTable").DataTable({
-        "ordering": false  // Disable sorting for all columns
-    });
+    <script>
+        $(document).ready(function() {
+            $("#inventoryTable").DataTable({
+                "ordering": false // Disable sorting for all columns
+            });
 
-    // Handle product addition via AJAX
-    $("#addProductForm").submit(function(event) {
-        event.preventDefault();
+            // Handle product addition via AJAX
+            $("#addProductForm").submit(function(event) {
+                event.preventDefault();
 
-        $.ajax({
-            url: "add_product.php",
-            type: "POST",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function(response) {
-                if (response.message === "success") {
-                    $("#successMessage").show();
-                    $("#addProductForm")[0].reset();
+                $.ajax({
+                    url: "add_product.php",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.message === "success") {
+                            $("#successMessage").show();
+                            $("#addProductForm")[0].reset();
 
-                    let newRow = `
+                            let newRow = `
                     <tr id="row-${response.id}">
                         <td>${response.id}</td>
                         <td>${response.product_name}</td>
@@ -401,105 +415,109 @@ $(document).ready(function() {
                         </td>
                     </tr>`;
 
-                    $("#productTableBody").append(newRow);
+                            $("#productTableBody").append(newRow);
 
-                    setTimeout(function() {
-                        $("#successMessage").fadeOut();
-                    }, 1000);
-                } else {
-                    alert(response.message);
-                }
-            },
-            error: function() {
-                alert("An error occurred while adding the product.");
-            }
-        });
-    });
-
-    // Handle product deletion via AJAX
-    $(document).on("click", ".delete-btn", function() {
-        let productId = $(this).data("id");
-        let row = $(this).closest("tr");
-
-        // SweetAlert Confirmation
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This product will be deleted permanently!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "delete_product.php",
-                    type: "GET",
-                    data: { id: productId },
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.message === "success") {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "The product has been deleted.",
-                                icon: "success",
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-
-                            row.fadeOut(500, function() {
-                                $(this).remove();
-                            });
+                            setTimeout(function() {
+                                $("#successMessage").fadeOut();
+                            }, 1000);
                         } else {
-                            Swal.fire("Error!", "Failed to delete the product.", "error");
+                            alert(response.message);
                         }
                     },
                     error: function() {
-                        Swal.fire("Error!", "An error occurred while deleting the product.", "error");
+                        alert("An error occurred while adding the product.");
                     }
                 });
-            }
-        });
-    });
+            });
 
-    // Load product data into the edit modal
-    $(document).on("click", ".edit-btn", function() {
-        let productId = $(this).data("id");
+            // Handle product deletion via AJAX
+            $(document).on("click", ".delete-btn", function() {
+                let productId = $(this).data("id");
+                let row = $(this).closest("tr");
 
-        $.ajax({
-            url: "get_product.php",  // This PHP file should return product details in JSON format
-            type: "GET",
-            data: { id: productId },
-            dataType: "json",
-            success: function(product) {
-                $("#editProductId").val(product.id);
-                $("#editProductName").val(product.product_name);
-                $("#editProductDescription").val(product.product_description);
-                $("#editProductPrice").val(product.price);
-                $("#editProductStock").val(product.stock_quantity);
-                $("#editProductSize").val(product.size);
-            },
-            error: function() {
-                alert("Failed to load product details.");
-            }
-        });
-    });
+                // SweetAlert Confirmation
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This product will be deleted permanently!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "delete_product.php",
+                            type: "GET",
+                            data: {
+                                id: productId
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.message === "success") {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "The product has been deleted.",
+                                        icon: "success",
+                                        timer: 1500,
+                                        showConfirmButton: false
+                                    });
 
-    // Handle product update via AJAX
-    $("#editProductForm").submit(function(event) {
-        event.preventDefault();
+                                    row.fadeOut(500, function() {
+                                        $(this).remove();
+                                    });
+                                } else {
+                                    Swal.fire("Error!", "Failed to delete the product.", "error");
+                                }
+                            },
+                            error: function() {
+                                Swal.fire("Error!", "An error occurred while deleting the product.", "error");
+                            }
+                        });
+                    }
+                });
+            });
 
-        $.ajax({
-            url: "update_product.php", // This PHP file should update the product in the database
-            type: "POST",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function(response) {
-                if (response.message === "success") {
-                    $("#editSuccessMessage").show();
+            // Load product data into the edit modal
+            $(document).on("click", ".edit-btn", function() {
+                let productId = $(this).data("id");
 
-                    // Update the product row in the table
-                    let updatedRow = `
+                $.ajax({
+                    url: "get_product.php", // This PHP file should return product details in JSON format
+                    type: "GET",
+                    data: {
+                        id: productId
+                    },
+                    dataType: "json",
+                    success: function(product) {
+                        $("#editProductId").val(product.id);
+                        $("#editProductName").val(product.product_name);
+                        $("#editProductDescription").val(product.product_description);
+                        $("#editProductPrice").val(product.price);
+                        $("#editProductStock").val(product.stock_quantity);
+                        $("#editProductSize").val(product.size);
+                    },
+                    error: function() {
+                        alert("Failed to load product details.");
+                    }
+                });
+            });
+
+            // Handle product update via AJAX
+            $("#editProductForm").submit(function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "update_product.php", // This PHP file should update the product in the database
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.message === "success") {
+                            $("#editSuccessMessage").show();
+
+                            // Update the product row in the table
+                            let updatedRow = `
                         <td>${response.id}</td>
                         <td>${response.product_name}</td>
                         <td>${response.product_description}</td>
@@ -515,32 +533,33 @@ $(document).ready(function() {
                             </button>
                         </td>
                     `;
-                    $("#row-" + response.id).html(updatedRow);
+                            $("#row-" + response.id).html(updatedRow);
 
-                    setTimeout(function() {
-                        $("#editSuccessMessage").fadeOut();
-                        $("#editProductModal").modal("hide");
-                    }, 1000);
-                } else {
-                    alert(response.message);
-                }
-            },
-            error: function() {
-                alert("An error occurred while updating the product.");
-            }
+                            setTimeout(function() {
+                                $("#editSuccessMessage").fadeOut();
+                                $("#editProductModal").modal("hide");
+                            }, 1000);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert("An error occurred while updating the product.");
+                    }
+                });
+            });
+
+            // Hide success message when modal opens again
+            $("#addProductModal").on("show.bs.modal", function() {
+                $("#successMessage").hide();
+            });
+
+            $("#editProductModal").on("show.bs.modal", function() {
+                $("#editSuccessMessage").hide();
+            });
         });
-    });
-
-    // Hide success message when modal opens again
-    $("#addProductModal").on("show.bs.modal", function() {
-        $("#successMessage").hide();
-    });
-
-    $("#editProductModal").on("show.bs.modal", function() {
-        $("#editSuccessMessage").hide();
-    });
-});
-</script>
+    </script>
 
 </body>
+
 </html>
