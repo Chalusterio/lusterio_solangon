@@ -63,64 +63,69 @@ $result = $conn->query($query);
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 
 <script>
-$(document).ready(function () {
-  // Initialize DataTables
-  $("#userTable").DataTable({
-    paging: true,
-    searching: true,
-    ordering: false,
-    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    responsive: true,
-    autoWidth: false,
-    language: {
-      lengthMenu: "Show _MENU_ entries",
-      paginate: {
-        previous: "Previous",
-        next: "Next"
-      }
-    }
-  });
-
-  // Delete Confirmation
-  $(".delete-btn").click(function () {
-    var userId = $(this).data("id");
-    var row = $("#row_" + userId);
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "delete_user.php",
-          type: "POST",
-          data: { id: userId },
-          success: function (response) {
-            if (response == "success") {
-              Swal.fire({
-                title: "Deleted!",
-                text: "User has been deleted.",
-                icon: "success",
-                timer: 1500,
-                showConfirmButton: false
-              });
-              row.fadeOut(500, function () {
-                $(this).remove();
-              });
-            } else {
-              Swal.fire("Error!", "User could not be deleted.", "error");
-            }
-          }
-        });
+  $(document).ready(function() {
+    // Initialize DataTables
+    $("#userTable").DataTable({
+      paging: true,
+      searching: true,
+      ordering: false,
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+      ],
+      responsive: true,
+      autoWidth: false,
+      language: {
+        lengthMenu: "Show _MENU_ entries",
+        paginate: {
+          previous: "Previous",
+          next: "Next"
+        }
       }
     });
+
+    // Delete Confirmation
+    $(".delete-btn").click(function() {
+      var userId = $(this).data("id");
+      var row = $("#row_" + userId);
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "delete_user.php",
+            type: "POST",
+            data: {
+              id: userId
+            },
+            success: function(response) {
+              if (response == "success") {
+                Swal.fire({
+                  title: "Deleted!",
+                  text: "User has been deleted.",
+                  icon: "success",
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                row.fadeOut(500, function() {
+                  $(this).remove();
+                });
+              } else {
+                Swal.fire("Error!", "User could not be deleted.", "error");
+              }
+            }
+          });
+        }
+      });
+    });
   });
-});
 </script>
 
 <!-- Styles -->
@@ -151,13 +156,18 @@ $(document).ready(function () {
     transition: margin-left 0.3s ease-in-out;
   }
 
-  .sidebar.collapsed + .content {
+  .sidebar.collapsed+.content {
     margin-left: 80px;
   }
 
   @media (max-width: 992px) {
-    .sidebar { width: 80px; }
-    .content { margin-left: 80px; }
+    .sidebar {
+      width: 80px;
+    }
+
+    .content {
+      margin-left: 80px;
+    }
   }
 
   .page-title {
@@ -234,12 +244,32 @@ $(document).ready(function () {
     padding: 15px;
   }
 
-  .dataTables_wrapper {
-    padding: 20px;
+  /* DataTables Customization */
+  .dataTables_wrapper .dataTables_length select {
+    border-radius: 12px;
+    padding: 5px;
+    border: 1px solid #D5C4B1;
+    background: #FDF8F3;
+    font-size: 14px;
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
   }
 
-  .dataTables_length, .dataTables_filter {
-    margin-bottom: 15px;
+  .dataTables_wrapper .dataTables_filter input {
+    border-radius: 12px;
+    padding: 5px;
+    border: 1px solid #D5C4B1;
+    background: #FDF8F3;
+    font-size: 14px;
+    box-shadow: inset 2px 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .dataTables_wrapper .dataTables_length select:focus,
+  .dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #A67C52;
+    box-shadow: 0 0 10px rgba(166, 124, 82, 0.3);
+    outline: none;
   }
 
   a {
@@ -247,7 +277,8 @@ $(document).ready(function () {
     color: inherit;
   }
 
-  a:hover, a:focus {
+  a:hover,
+  a:focus {
     text-decoration: none !important;
   }
 </style>
