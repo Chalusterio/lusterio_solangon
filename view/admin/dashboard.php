@@ -9,7 +9,7 @@ $stockQuery = "SELECT size, SUM(stock_quantity) AS total_stock FROM products GRO
 $stockResult = $conn->query($stockQuery);
 
 // Fetch low stock alerts
-$lowStockQuery = "SELECT product_name, stock_quantity FROM products WHERE stock_quantity < 10"; 
+$lowStockQuery = "SELECT product_name, stock_quantity FROM products WHERE stock_quantity < 5"; 
 $lowStockResult = $conn->query($lowStockQuery);
 
 // Prepare data for chart

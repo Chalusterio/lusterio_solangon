@@ -5,7 +5,7 @@ include("./includes/sidebar.php");
 include("../../dB/config.php");
 
 // Fetch low stock products
-$query = "SELECT id, product_name, stock_quantity FROM products WHERE stock_quantity <= 5 ORDER BY stock_quantity ASC";
+$query = "SELECT id, product_name, stock_quantity FROM products WHERE stock_quantity <5 ORDER BY stock_quantity ASC";
 $result = $conn->query($query);
 ?>
 
