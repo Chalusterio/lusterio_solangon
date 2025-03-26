@@ -16,7 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $verification = 0;
 
   if ($password !== $confirmPassword) {
-    echo "<div class='alert alert-danger'>Passwords do not match.</div>";
+    echo "<script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Passwords do not match',
+        confirmButtonColor: '#AB886D'
+      });
+    </script>";
     exit();
   }
 
@@ -26,7 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $checkEmail->store_result();
 
   if ($checkEmail->num_rows > 0) {
-    echo "<div class='alert alert-danger'>Email already exists. Please use a different one.</div>";
+    echo "<script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Email already exists. Please use a different one.',
+        confirmButtonColor: '#AB886D'
+      });
+    </script>";
     $checkEmail->close();
     exit();
   }
@@ -39,15 +53,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $nextUserId = $row['last_id'] ? $row['last_id'] + 1 : 1;
 
   $sql = "INSERT INTO users (userId, firstName, lastName, email, password, phoneNumber, gender, birthday, role, verification, createdAt) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("issssssssi", $nextUserId, $firstName, $lastName, $email, $hashedPassword, $phoneNumber, $gender, $birthday, $role, $verification);
 
   if ($stmt->execute()) {
-    echo "<div class='alert alert-success'>User registered successfully!</div>";
+    echo "<script>
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'User registered successfully!',
+        confirmButtonColor: '#AB886D'
+      });
+    </script>";
   } else {
-    echo "<div class='alert alert-danger'>Error: " . $stmt->error . "</div>";
+    echo "<script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Something went wrong: " . $stmt->error . "',
+        confirmButtonColor: '#AB886D'
+      });
+    </script>";
   }
 
   $stmt->close();
@@ -135,6 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!-- ✅ SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   $(document).ready(function () {
     $("#registerUserForm").submit(function (event) {
@@ -144,7 +173,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       const confirmPassword = $("input[name='confirm_password']").val();
 
       if (password !== confirmPassword) {
-        alert("Passwords do not match!");
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Passwords do not match',
+          confirmButtonColor: '#AB886D'
+        });
         return;
       }
 
