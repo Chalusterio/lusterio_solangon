@@ -1,7 +1,6 @@
 <?php
 include("./includes/header.php");
 include("./includes/topbar.php");
-include("./includes/sidebar.php");
 include("../../dB/config.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -57,7 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<div class="wrapper d-flex">
+<!-- ✅ WRAPPER starts here -->
+<div class="wrapper sidebar-collapsed">
+  <?php include("./includes/sidebar.php"); ?>
+
   <main class="content flex-grow-1">
     <h2 class="page-title">Register New User</h2>
 
@@ -126,19 +128,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="userResponse" class="mt-3"></div>
       </div>
     </div>
-    </form>
-</div>
-</div>
-</main>
+  </main>
 </div>
 
 <?php include("./includes/footer.php"); ?>
 
-<!-- JS -->
+<!-- ✅ SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  $(document).ready(function() {
-    $("#registerUserForm").submit(function(event) {
+  $(document).ready(function () {
+    $("#registerUserForm").submit(function (event) {
       event.preventDefault();
 
       const password = $("input[name='password']").val();
@@ -153,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         url: "add_user.php",
         type: "POST",
         data: $(this).serialize(),
-        success: function(response) {
+        success: function (response) {
           $("#userResponse").html(response).fadeIn().css({
             "text-align": "center",
             "max-width": "600px",
@@ -163,11 +162,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "font-weight": "bold"
           });
 
-          setTimeout(function() {
-            $("#userResponse").fadeOut("slow", function() {
+          setTimeout(function () {
+            $("#userResponse").fadeOut("slow", function () {
               $(this).html("");
             });
-          }, 5000);
+          }, 1000);
 
           $("#registerUserForm")[0].reset();
           $("html, body").animate({
@@ -179,11 +178,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   });
 </script>
 
-<!-- Styles -->
+<!-- ✅ STYLES -->
 <style>
   body {
     background: linear-gradient(to right, #F3EDE8, #E6D2C2);
     font-family: 'Poppins', sans-serif;
+    margin: 0;
   }
 
   .wrapper {
@@ -198,6 +198,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   .content {
     flex-grow: 1;
     margin-left: 260px;
+    padding: 30px;
+    transition: margin-left 0.3s ease-in-out;
   }
 
   @media (max-width: 992px) {
